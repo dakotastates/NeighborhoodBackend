@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  profile: one
+  status: MyString
+  visable: false
+
+two:
+  profile: two
+  status: MyString
+  visable: false

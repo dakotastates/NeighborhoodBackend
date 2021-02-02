@@ -1,25 +1,34 @@
 class Api::V1::MessagesController < ApplicationController
-  # skip_before_action :authorized, only: [:index, :create]
-  before_action :authenticate
+  skip_before_action :authorized, only: [:index, :create]
+  # before_action :authenticate
 
   before_action do
     @conversation = Conversation.find(params[:conversation_id])
   end
 
   def index
+
     @messages = @conversation.messages
 
     @messages.where("user_id != ? AND read = ?", current_user.id, false).update_all(read: true)
+    # byebug
+    # if @messages.last
+    #   if @messages.last.user_id != current_user.id
+    #     @messages.last.read = true;
+    #   end
+    # end
 
-    @message = @conversation.messages.new
+    render json: @messages
+    # @message = @conversation.messages.new
   end
 
   def create
+    # byebug
     @message = @conversation.messages.new(message_params)
-    @message.user = current_user
+    # @message.user = current_usser
 
     if @message.save
-      render json: @conversation
+      render json: @message
       # redirect_to conversation_messages_path(@conversation)
     end
   end

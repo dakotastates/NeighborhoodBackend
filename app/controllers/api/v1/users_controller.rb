@@ -7,6 +7,14 @@ class Api::V1::UsersController < ApplicationController
     render json: @users
   end
 
+  def show
+    if User.exists?(params[:id])
+      render json: @user
+    else
+      render json: {notice: 'User does not exist' }
+    end
+  end
+
   def create
     @user = User.create(user_params)
 
@@ -37,7 +45,10 @@ class Api::V1::UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit( :id, :email, :password, :first_name, :middle_name, :last_name, :phone, :birthday, :gender, location_attributes: [:longitude, :latitude], profile_attributes: [:bio, :cover_image])
+    params.require(:user).permit( :id, :email, :password, :first_name, :middle_name, :last_name, :phone, :birthday, :gender,
+      location_attributes: [:longitude, :latitude],
+      profile_attributes: [:bio, :cover_image],
+      neighborship_attributes: [:neighbor])
   end
 
   def find_user

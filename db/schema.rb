@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_31_080550) do
+ActiveRecord::Schema.define(version: 2021_02_02_021631) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,24 @@ ActiveRecord::Schema.define(version: 2021_01_31_080550) do
     t.integer "receiver_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "headlines", force: :cascade do |t|
+    t.bigint "profile_id", null: false
+    t.string "headline"
+    t.boolean "visable", default: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["profile_id"], name: "index_headlines_on_profile_id"
+  end
+
+  create_table "hometowns", force: :cascade do |t|
+    t.bigint "profile_id", null: false
+    t.string "hometown"
+    t.boolean "visable", default: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["profile_id"], name: "index_hometowns_on_profile_id"
   end
 
   create_table "locations", force: :cascade do |t|
@@ -42,6 +60,29 @@ ActiveRecord::Schema.define(version: 2021_01_31_080550) do
     t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
+  create_table "neighborships", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "neighbor_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["neighbor_id"], name: "index_neighborships_on_neighbor_id"
+    t.index ["user_id"], name: "index_neighborships_on_user_id"
+  end
+
+  create_table "occupations", force: :cascade do |t|
+    t.bigint "profile_id", null: false
+    t.string "company"
+    t.string "position"
+    t.string "city"
+    t.text "description"
+    t.date "start_date"
+    t.date "end_date"
+    t.boolean "visible", default: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["profile_id"], name: "index_occupations_on_profile_id"
+  end
+
   create_table "profiles", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.text "bio"
@@ -49,6 +90,15 @@ ActiveRecord::Schema.define(version: 2021_01_31_080550) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_profiles_on_user_id"
+  end
+
+  create_table "statuses", force: :cascade do |t|
+    t.bigint "profile_id", null: false
+    t.string "status"
+    t.boolean "visable", default: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["profile_id"], name: "index_statuses_on_profile_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -64,8 +114,14 @@ ActiveRecord::Schema.define(version: 2021_01_31_080550) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "headlines", "profiles"
+  add_foreign_key "hometowns", "profiles"
   add_foreign_key "locations", "users"
   add_foreign_key "messages", "conversations"
   add_foreign_key "messages", "users"
+  add_foreign_key "neighborships", "users"
+  add_foreign_key "neighborships", "users", column: "neighbor_id"
+  add_foreign_key "occupations", "profiles"
   add_foreign_key "profiles", "users"
+  add_foreign_key "statuses", "profiles"
 end

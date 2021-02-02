@@ -1,6 +1,6 @@
 class Api::V1::ConversationsController < ApplicationController
-  # skip_before_action :authorized, only: [:index, :create]
-  before_action :authenticate
+  skip_before_action :authorized, only: [:index, :create]
+  # before_action :authorized
 
   def index
     @users = User.where.not(id: current_user.id)
@@ -9,8 +9,9 @@ class Api::V1::ConversationsController < ApplicationController
   end
 
   def create
-    if Conversation.between(params[:sender_id], params[:receiver_id]).present?
-      @conversation = Conversation.between(params[:sender_id], params[:receiver_id]).first
+    # byebug
+    if Conversation.between(conversation_params[:sender_id], conversation_params[:receiver_id]).present?
+      @conversation = Conversation.between(conversation_params[:sender_id], conversation_params[:receiver_id]).first
     else
       @conversation = Conversation.create!(conversation_params)
     end
@@ -22,6 +23,6 @@ class Api::V1::ConversationsController < ApplicationController
 
   private
     def conversation_params
-      params.permit(:sender_id, :receiver_id)
+      params.require(:conversation).permit(:sender_id, :receiver_id)
     end
 end
