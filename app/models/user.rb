@@ -6,7 +6,7 @@ class User < ApplicationRecord
   has_many :neighborships, dependent: :destroy
   has_many :neighbors, through: :neighborships
   accepts_nested_attributes_for :location, :profile, update_only: true
-  
+
   after_create :init_profile
 
   def init_profile

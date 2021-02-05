@@ -4,5 +4,14 @@ class Profile < ApplicationRecord
   has_one :headline
   has_one :hometown
   has_many :occupations
-  accepts_nested_attributes_for :status, :headline, :hometown, :occupations
+  has_one_attached :featured_image
+  accepts_nested_attributes_for :status, :headline, :hometown, :occupations, update_only: true
+
+  after_create :init_profile
+
+  def init_profile
+    self.create_status!
+    self.create_headline!
+    self.create_hometown!
+  end
 end
