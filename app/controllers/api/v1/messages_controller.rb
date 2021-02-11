@@ -28,7 +28,11 @@ class Api::V1::MessagesController < ApplicationController
     # @message.user = current_usser
 
     if @message.save
-      render json: @message
+      ActionCable.server.broadcast 'messages_channel', message
+      head :ok
+    else
+      head :ok
+      # render json: @message
       # redirect_to conversation_messages_path(@conversation)
     end
   end
