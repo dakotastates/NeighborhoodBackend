@@ -15,7 +15,8 @@ class Api::V1::ConversationsController < ApplicationController
     else
       @conversation = Conversation.create!(conversation_params)
     end
-
+    ActionCable.server.broadcast 'conversations_channel', serialized_data
+     head :ok
     render json: @conversation
 
     # redirect_to conversation_messages_path(@conversation)
