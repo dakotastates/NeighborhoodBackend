@@ -8,7 +8,7 @@ Rails.application.routes.draw do
       end
       resources :conversations, only: [:index, :create] do
         resources :messages, only: [:index, :create]
-        mount ActionCable.server => '/cable'
+        # mount ActionCable.server => '/cable'
       end
 
       post '/login', to: 'auth#create'
