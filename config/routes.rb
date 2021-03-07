@@ -11,6 +11,11 @@ Rails.application.routes.draw do
         # mount ActionCable.server => '/cable'
       end
 
+      resources :bulletins, only: [:index, :create] do
+        resources :comments, only: [:index, :create]
+        # mount ActionCable.server => '/cable'
+      end
+
       post '/login', to: 'auth#create'
       get '/profile', to: 'users#profile'
 
