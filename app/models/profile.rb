@@ -5,6 +5,7 @@ class Profile < ApplicationRecord
   has_one :hometown
   has_many :occupations
   has_one_attached :featured_image
+  has_many_attached :images
   accepts_nested_attributes_for :status, :headline, :hometown, :occupations, update_only: true
 
   after_create :init_profile

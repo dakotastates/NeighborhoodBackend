@@ -1,6 +1,6 @@
 class ProfileSerializer < ActiveModel::Serializer
   include Rails.application.routes.url_helpers
-  attributes :id, :bio, :featured_image, :cover_image, :headline, :occupations, :hometown, :status, :user
+  attributes :id, :bio, :featured_image, :images, :cover_image, :headline, :occupations, :hometown, :status, :user
 
   # attribute :created_at do
   #   object.created_at.strftime("%B %d %Y")
@@ -12,6 +12,14 @@ class ProfileSerializer < ActiveModel::Serializer
      }
    end
  end
+
+ def images
+  if object.images.attached?
+    {
+      url: rails_blob_url(object.images)
+    }
+  end
+end
 
   # has_one :headline
   # has_one :status
