@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_03_020402) do
+ActiveRecord::Schema.define(version: 2021_03_26_201218) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,15 @@ ActiveRecord::Schema.define(version: 2021_03_03_020402) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_bulletins_on_user_id"
+  end
+
+  create_table "cities", force: :cascade do |t|
+    t.string "city"
+    t.bigint "profile_id", null: false
+    t.boolean "visable", default: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["profile_id"], name: "index_cities_on_profile_id"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -172,6 +181,7 @@ ActiveRecord::Schema.define(version: 2021_03_03_020402) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "bulletins", "users"
+  add_foreign_key "cities", "profiles"
   add_foreign_key "comments", "bulletins"
   add_foreign_key "comments", "users"
   add_foreign_key "headlines", "profiles"

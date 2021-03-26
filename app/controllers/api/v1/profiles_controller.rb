@@ -44,6 +44,7 @@ class Api::V1::ProfilesController < ApplicationController
     params.require(:profile).permit( :id, :bio, :featured_image, :images, :cover_image,
       headline_attributes: [:headline, :visable],
       hometown_attributes: [:hometown, :visable],
+      city_attributes: [:city, :visable],
       occupation_attributes: [:company, :position, :city, :description, :start_date, :end_date, :visible],
       status_attributes: [:status, :visable])
   end
